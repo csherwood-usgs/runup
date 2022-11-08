@@ -13,6 +13,7 @@ def wavelength_L(T, h):
     L = g*T*T/(2*np.pi)*(np.tanh(kh))
     return L
 
+
 def iribarren(B, H, T, location="deepwater"):
     """
     Calculate Iribarren wavenumber
@@ -33,7 +34,7 @@ def iribarren(B, H, T, location="deepwater"):
     I = B/np.sqrt(H/Lo)
 
     # description of breaker type
-    if location is "deepwater":
+    if location == "deepwater":
         c = np.array((0.5, 3.3))
     else:
         c = np.array((0.4,2.0))
@@ -46,6 +47,7 @@ def iribarren(B, H, T, location="deepwater"):
         descr =  "plunging"
     return I, descr
 
+
 def breaker_type(I,location="deepwater"):
     """
     Description of breaker types
@@ -54,10 +56,10 @@ def breaker_type(I,location="deepwater"):
        I = Iribarren number, dimensionless number
        location - Either "deepwater" [default] or "breakpoint"
     """
-    if location is "deepwater":
+    if location == "deepwater":
         c = np.array((0.5, 3.3))
     else:
-        c = np.array((0.4,2.0))
+        c = np.array((0.4, 2.0))
 
     if I < c[0]:
         return "spilling"
@@ -65,6 +67,7 @@ def breaker_type(I,location="deepwater"):
         return "surging/collapsing"
     else:
         return "plunging"
+
 
 def reverse_shoal(H,T,h):
     """
@@ -111,6 +114,7 @@ def refract_coeff(theta0, theta1=0.):
     Kr = np.abs( np.cos(theta0)/np.cos(theta1) )
     return Kr
 
+
 def ursell( Hs, T, h ):
     """
     Calculate Ursell number
@@ -121,6 +125,7 @@ def ursell( Hs, T, h ):
     k = kh/h
     Ur =0.75*0.5*Hs*k/(kh)**3.
     return Ur
+
 
 def qkhfs( w, h ):
     """
