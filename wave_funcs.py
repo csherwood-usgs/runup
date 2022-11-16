@@ -87,7 +87,7 @@ def reverse_shoal(H,T,h):
     return Ho
 
 
-def jonswap(w: np.ndarray, Hs: float, Tp: float, gamma: float = 3.7) -> np.ndarray:
+def jonswap(w: np.ndarray, Hs: float = 2., Tp: float =10., gamma: float = 3.7) -> np.ndarray:
     '''
     get Jonswap spectra
     :param w: np.ndarray Angular Frequency
