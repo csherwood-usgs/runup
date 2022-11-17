@@ -14,14 +14,14 @@ def wavelength_L(T, h):
     return L
 
 
-def iribarren(B, H, T, location="deepwater"):
+def iribarren(S, H, T, location="deepwater"):
     """
     Calculate Iribarren wavenumber
     Battjes, 1974
     Description of breaker types
     https://en.wikipedia.org/wiki/Iribarren_number
     Input:
-       B - beach slope as fraction rise/run []
+       S - beach slope as fraction rise/run []
        H - wave height at either deepwater or breakpoint [m]
        T - wave period [s]
        location - Either "deepwater" [default] or "breakpoint"
@@ -31,7 +31,7 @@ def iribarren(B, H, T, location="deepwater"):
     """
     g = 9.81
     Lo = (g*T**2)/(2*np.pi)
-    I = B/np.sqrt(H/Lo)
+    I = S/np.sqrt(H/Lo)
 
     # description of breaker type
     if location == "deepwater":
