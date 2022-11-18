@@ -78,6 +78,56 @@ def bar_Ho(T, hb, gamma=0.7 ):
     Ho = reverse_shoal(Hb,T,hb)
     return Ho
 
+def jonswap_ess( Hs, Tp, flo = 0.04, fhi = 0.25, npts = 21, acc = 0.05):
+    # Generate a Jonswap spectrum in sea-swell band for Lange et al
+    # Input:
+    #   Hs - Significant wave height (m)
+    #   TP - Peak period (s)
+    #   flo - Low-frequency cutoff (Hz) [0.04]
+    #   fhi - High-frequency cutoff (Hz) [0.25]
+    #   npts- number of points [21]
+    #   acc - required accuracy [0.02]
+    # Returns
+    #   Ess - Energy spectrum (m2/Hz)
+    #   f   - Frequency (Hz)
+    #   df  - delta f (Hz)
+    w = np.geomspace(2.*np.pi*flo, 2*np.pi*fhi, npts)
+    Ess = 2.*np.pi*jonswap(w, Hs, Tp)
+    f = w/(2.*np.pi)
+    # check integration
+    dff = np.diff(f)
+    df = np.append(dff[0], dff)
+    Hsf = 4.*np.sqrt( np.sum(Ess*df))
+    err = np.abs(Hsf-Hs)/Hs
+    print(Hsf, err)
+    assert err <= acc,'Hs does not match input'
+    return Ess, f, df
+    
+
+def two_slope_IPA_free(Ess, f, df, beta_ef, beta_eff):
+    """
+    Equation 9 in Lange et al., 2020
+    """
+    #term1 = 0.4 * 𝛽eff^0.45 ∫𝑆𝑆 𝐸^0.5 𝑓^−1.45 𝑑𝑓
+    aint = Ess**0.5 * f**-1.45 * df
+    term1 = 0.4 * beta_eff**0.45 * aint.sum()
+
+    #term2 = 3.72 * 𝛽eff^0.6 ∫𝑆𝑆 𝐸^0.95 𝑓^−0.25 𝑑𝑓
+    bint = Ess**0.95 * f**-0.25 * df
+    term2= 3.72 * beta_eff**0.6 * bint.sum()
+
+    #term3 = 0.76 * 𝛽f^2 * 𝛽eff^0.75 ∫𝑆𝑆 𝐸^0.4 𝑓^−3.1 𝑑𝑓
+    cint = Ess**0.4 * f**-3.1 * df
+    term3= 0.76 * beta_f**2 * beta_eff**0.75 * cint.sum()
+    #term3.append(c)
+
+    #R2%,G = term1 + 2[term2 + term3]^0.5
+    R2 = term1 + 2*(term2+term3)**0.5
+    return R2
+
+
+
+
 def calcR2_Raubenheimer(H, T , slope, barslope):
         """
         %
