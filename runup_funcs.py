@@ -99,12 +99,11 @@ def jonswap_ess( Hs, Tp, flo = 0.04, fhi = 0.25, npts = 21, acc = 0.05):
     df = np.append(dff[0], dff)
     Hsf = 4.*np.sqrt( np.sum(Ess*df))
     err = np.abs(Hsf-Hs)/Hs
-    print(Hsf, err)
     assert err <= acc,'Hs does not match input'
     return Ess, f, df
-    
 
-def two_slope_IPA_free(Ess, f, df, beta_ef, beta_eff):
+
+def two_slope_IPA_free(Ess, f, df, beta_f, beta_eff):
     """
     Equation 9 in Lange et al., 2020
     """
@@ -119,7 +118,6 @@ def two_slope_IPA_free(Ess, f, df, beta_ef, beta_eff):
     #term3 = 0.76 * 𝛽f^2 * 𝛽eff^0.75 ∫𝑆𝑆 𝐸^0.4 𝑓^−3.1 𝑑𝑓
     cint = Ess**0.4 * f**-3.1 * df
     term3= 0.76 * beta_f**2 * beta_eff**0.75 * cint.sum()
-    #term3.append(c)
 
     #R2%,G = term1 + 2[term2 + term3]^0.5
     R2 = term1 + 2*(term2+term3)**0.5
