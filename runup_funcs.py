@@ -2,7 +2,8 @@
 
 import numpy as np
 
-func_list = ["A17", "D20", "H86", "NH91", "P14", "P16", "R01", "S06", "S11", "V12"]
+# func_list = ["A17", "D20", "H86", "NH91", "P14", "P16", "R01", "S06", "S11", "V12"]
+func_list = ["A17", "D20", "H86", "NH91", "P14", "R01", "S06", "S11", "V12"] # eliminate P16 (outlier, large values, gravel beach)
 
 def calc_L0(Tp = 10.):
     L0 = (9.81*Tp**2)/(2.*np.pi)
@@ -41,7 +42,8 @@ def P14(H0 = 2., L0 = 156.131, Beta = 0.02):
     return R2
 
 
-def P16(H0 = 2., Tp = 10., Beta = 0.02): 
+def P16(H0 = 2., Tp = 10., Beta = 0.02):
+    # Poate et al., 2016 Eqn. 9 
     C = 0.33
     R2 = C*np.sqrt(Beta)*H0*Tp;
     return R2
