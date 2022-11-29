@@ -126,7 +126,18 @@ def two_slope_IPA_free(Ess, f, df, beta_f, beta_eff):
     return R2
 
 
-
+def ang_corr (H, a, an):
+    """Correct for angle of approach
+    Input: 
+        H = wave height
+        a = approach angle (degrees)
+        an = shore normal angle (degrees)
+    Returns:
+        Hc = corrected wave height
+    """
+    adiff = np.deg2rad( np.abs(a-an) )
+    Hc = np.sqrt( np.cos (adiff) *H*H )
+    return Hc
 
 def calcR2_Raubenheimer(H, T , slope, barslope):
         """
