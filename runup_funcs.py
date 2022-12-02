@@ -80,6 +80,13 @@ def bar_Ho(T, hb, gamma=0.7 ):
     Ho = reverse_shoal(Hb,T,hb)
     return Ho
 
+def two_slope_IPA_wrapper( Hs, Tp, beta_f, beta_eff):
+    """Wrapper for Lange eq9 so you don't have to see spectra
+    """
+    Ess, f, df = jonswap_ess(Hs, Tp)
+    R2 = two_slope_IPA_free(Ess, f, df, beta_f, beta_eff)
+    return( R2 )
+
 def jonswap_ess( Hs, Tp, flo = 0.04, fhi = 0.25, npts = 21, acc = 0.05):
     # Generate a Jonswap spectrum in sea-swell band for Lange et al
     # Input:
