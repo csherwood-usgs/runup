@@ -55,7 +55,7 @@ def R01(H0 = 2., L0 = 156.131, Beta = 0.02):
 
 
 def S06(H0 = 2., L0 = 156.131, Beta = 0.02):
-    Irribian = Beta/np.sqrt(H0/L0)
+    Ir = Beta/np.sqrt(H0/L0)
     S06_Setup = 0.35*Beta*np.sqrt(H0*L0)
     S06_Sinc = 0.75*Beta*np.sqrt(H0*L0)
     S06_Sig = 0.06*np.sqrt(H0*L0)
