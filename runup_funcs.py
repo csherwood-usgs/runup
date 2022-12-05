@@ -11,6 +11,11 @@ def calc_L0(Tp = 10.):
 
 
 def A17(H0 = 2., L0 = 156.131, Beta = 0.02):
+    """
+    Atkinson, A. L., Power, H. E., Moura, T., Hammond, T., Callaghan, D. P., & Baldock, T. E. (2017).
+    Assessment of runup predictions by empirical models on non-truncated beaches on the south-east Australian coast.
+    Coastal Engineering, 119, 15–31. https://doi.org/10.1016/j.coastaleng.2016.10.001
+"""
     R2 = 0.99*Beta*np.sqrt(H0*L0)
     return R2
 
@@ -21,7 +26,13 @@ def D20(H0 = 2., L0 = 156.131, Beta = 0.02):
 
 
 def H86(H0 = 2., L0 = 156.131, Beta = 0.02):
-    R2 = 0.83*Beta*np.sqrt(H0*L0)+0.2*H0
+    """
+    Holman, R. A. (1986). Extreme value statistics for wave run-up on a natural beach.
+    Coastal Engineering, 9(6), 527–544. https://doi.org/10.1016/0378-3839(86)90002-5
+    Table 1b
+"""
+    Ir = Beta/(np.sqrt(H0*L0))
+    R2 = H0*(0.83*Ir + 0.2)
     return R2
 
 
@@ -50,6 +61,12 @@ def P16(H0 = 2., Tp = 10., Beta = 0.02):
 
 
 def R01(H0 = 2., L0 = 156.131, Beta = 0.02):
+    """
+    Ruggiero, P., Komar, P. D., McDougal, W. G., Marra, J. J., & Beach, R. A. (2001). 
+    Wave Runup, Extreme Water Levels and the Erosion of Properties Backing Beaches. 
+    Journal of Coastal Research, 17(2), 407–419.
+    Eq. 5
+    """
     R2 = 0.27*np.sqrt(Beta*H0*L0)
     return R2
 
