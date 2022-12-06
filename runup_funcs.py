@@ -1,9 +1,19 @@
 # runup_funcs.py
 
 import numpy as np
+import os
 
 # func_list = ["A17", "D20", "H86", "NH91", "P14", "P16", "R01", "S06", "S11", "V12"]
 func_list = ["A17", "D20", "H86", "NH91", "P14", "R01", "S06", "S11", "V12"] # eliminate P16 (outlier, large values, gravel beach)
+
+
+def which_computer():
+    computername = os.environ['COMPUTERNAME']
+    drive = 'C:/'
+    if computername == 'IGSAGIEGWSCSH10':
+        drive = 'D:/'
+    return drive, computername
+
 
 def calc_L0(Tp = 10.):
     L0 = (9.81*Tp**2)/(2.*np.pi)
