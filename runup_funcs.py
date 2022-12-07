@@ -3,9 +3,7 @@
 import numpy as np
 import os
 
-# func_list = ["A17", "D20", "H86", "NH91", "P14", "P16", "R01", "S06", "S11", "V12"]
-func_list = ["A17", "D20", "H86", "NH91", "P14", "R01", "S06", "S11", "V12"] # eliminate P16 (outlier, large values, gravel beach)
-
+func_list = ["H86", "N91", "R01", "S06", "S11", "V12", "P14", "A17", "T19", "D20" ]
 
 def which_computer():
     computername = os.environ['COMPUTERNAME']
@@ -31,7 +29,24 @@ def A17(H0 = 2., L0 = 156.131, Beta = 0.02):
 
 
 def D20(H0 = 2., L0 = 156.131, Beta = 0.02):
-    R2 = 1.06*(0.0055*np.sqrt(H0*L0)/Beta+(0.32*np.sqrt(H0*L0*Beta)/2.))
+    """
+    Didier, D., Caulet, C., Bandet, M., Bernatchez, P., Dumont, D., Augereau, E., et al. (2020).
+    Wave runup parameterization for sandy, gravel and platform beaches in a fetch-limited, large estuarine system.
+    Continental Shelf Research, 192, 104024. https://doi.org/10.1016/j.csr.2019.104024
+    eqn. 17
+"""
+    # R2 = 1.06*(0.0055*np.sqrt(H0*L0)/Beta+(0.32*np.sqrt(H0*L0*Beta)/2.)) # eqn 16 deprecated
+    R2 = 0.117*np.sqrt(H0*L0)
+    return R2
+
+def T19(H0 = 2., L0 = 156.313, Beta = 0.02):
+    """
+    Torres-Freyermuth, A., Pintado-Patiño, J. C., Pedrozo-Acuña, A., Puleo, J. A., & Baldock, T. E. (2019).
+    Runup uncertainty on planar beaches.
+    Ocean Dynamics, 69(11), 1359–1371. https://doi.org/10.1007/s10236-019-01305-y
+    eqn. 14
+"""
+    R2 = 1.76*Beta*np.sqrt(H0*L0)
     return R2
 
 
@@ -46,7 +61,13 @@ def H86(H0 = 2., L0 = 156.131, Beta = 0.02):
     return R2
 
 
-def NH91(H0 = 2., L0 = 156.131, Beta = 0.02):
+def N91(H0 = 2., L0 = 156.131, Beta = 0.02):
+    """
+    Nielsen, P., & Hanslow, D. J. (1991).
+    Wave Runup Distributions on Natural Beaches.
+    Journal of Coastal Research, 7(4), 1139–1152.
+    eqns. 9 and 10
+    """
     Hrms = H0/1.416; 
     if Beta >=0.1:
         LR = 0.6*Beta*np.sqrt(Hrms*L0)
@@ -59,12 +80,23 @@ def NH91(H0 = 2., L0 = 156.131, Beta = 0.02):
 
 
 def P14(H0 = 2., L0 = 156.131, Beta = 0.02):
+    """
+    Paprotny, D., Andrzejewski, P., Terefenko, P., & Furmańczyk, K. (2014). 
+    Application of Empirical Wave Run-Up Formulas to the Polish Baltic Sea Coast. 
+    PLOS ONE, 9(8), e105437. https://doi.org/10.1371/journal.pone.0105437
+    eqn. 6
+"""
     R2 = 1.29*H0*(Beta/np.sqrt(H0/L0))**(0.72)
     return R2
 
 
 def P16(H0 = 2., Tp = 10., Beta = 0.02):
-    # Poate et al., 2016 Eqn. 9 
+    """
+    Poate, T. G., McCall, R. T., & Masselink, G. (2016).
+    A new parameterisation for runup on gravel beaches.
+    Coastal Engineering, 117, 176–190. https://doi.org/10.1016/j.coastaleng.2016.08.003
+    Eqn 9 - gravel beaches (only?)
+    """
     C = 0.33
     R2 = C*np.sqrt(Beta)*H0*Tp;
     return R2
@@ -92,7 +124,13 @@ def S06(H0 = 2., L0 = 156.131, Beta = 0.02):
 
 
 def S11(H0 = 2., L0 = 156.131, Beta = 0.02):
-    R2 = 2.14*np.tanh(0.4*H0);
+    """ 
+    Senechal, N., Coco, G., Bryan, K. R., & Holman, R. A. (2011).
+    Wave runup during extreme storm conditions.
+    Journal of Geophysical Research: Oceans, 116(C7). https://doi.org/10.1029/2010JC006819
+    eqn 17.
+    """
+    R2 = 2.14*np.tanh(0.4*H0)
     return R2
 
 
