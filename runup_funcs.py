@@ -97,8 +97,15 @@ def S11(H0 = 2., L0 = 156.131, Beta = 0.02):
 
 
 def V12(H0 = 2., L0 = 156.131, Beta = 0.02):
-    Irribian = Beta/np.sqrt(H0/L0);
-    R2 = 0.53*Beta*np.sqrt(H0*L0)+0.58*Irribian*np.sqrt(H0**3/L0)
+    """Vousdoukas, M. I., Wziatek, D., & Almeida, L. P. (2012). 
+    Coastal vulnerability assessment based on video wave run-up observations 
+    at a mesotidal, steep-sloped beach. 
+    Ocean Dynamics, 62(1), 123–137.
+    https://doi.org/10.1007/s10236-011-0480-x
+    figure 5a
+    """
+    Ir = Beta/np.sqrt(H0/L0);
+    R2 = 0.53*Beta*np.sqrt(H0*L0)+0.58*Ir*np.sqrt(H0**3/L0)
     return R2
 
 
