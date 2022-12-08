@@ -215,8 +215,11 @@ def ang_corr (H, a, an):
         Hc = corrected wave height
     """
     adiff = np.deg2rad( np.abs(a-an) )
-    Hc = np.sqrt( np.cos (adiff) *H*H )
+    P0 = H*H
+    Pn = ( np.cos(adiff)*P0 )
+    Hc = np.sqrt( Pn )
     return Hc
+
 
 def calcR2_Raubenheimer(H, T , slope, barslope):
         """
