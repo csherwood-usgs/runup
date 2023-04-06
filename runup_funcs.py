@@ -8,10 +8,31 @@ func_list = ["H86", "N91", "R01", "S06", "S11", "V12", "P14", "A17", "T19", "D20
 def which_computer():
     computername = os.environ['COMPUTERNAME']
     drive = 'C:/'
-    if computername == 'IGSAGIEGWSCSH10':
+    if computername == 'IGSAGI221WCSH10':
         drive = 'D:/'
     return drive, computername
 
+
+def calc_RigGF12( H0 = 2., L0 = 156.131, Beta = 0.02, fp=0.1, fs=.02, sw=5):
+    """
+    Guza, R. T., and Feddersen, F. (2012),
+    Effect of wave frequency and directional spread on shoreline runup,
+    Geophys. Res. Lett., 39, L11607, doi:10.1029/2012GL051959. 
+
+    Equation 4.
+    
+    Input:
+     H0 - Deepwater significant wave height (m)
+     L0 - Deepwater wave lenght (m)
+     Beta = beach slope ()
+     fp - Peak frequency == 1/Tp (Hz)
+     fw - Frequency spread (Hz): 0.0025 to 0.02 was tested
+     sw - Directional spreading (degrees): 5 to 30 was tested
+
+    """
+    swr = sw * np.pi/180.
+    R2 = np.sqrt(H0*L0) * (-0.013*np.log((fp/fs)*swr) + 0.058)
+    return R2
 
 def calc_L0(Tp = 10.):
     L0 = (9.81*Tp**2)/(2.*np.pi)
