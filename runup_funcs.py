@@ -12,6 +12,33 @@ def which_computer():
         drive = 'D:/'
     return drive, computername
 
+def dean_profile( ad, x):
+    """
+    Dean, 1991, J. Coastal Research 7(1).
+    """
+    z = ad*x**(2./3.)
+    return z
+
+def MvO21( H0, L0, ad, tanBb ):
+    """
+    Van Ormondt, M., Roelvink, D., and van Dongeren, A. (2021)
+     J. Mar. Sci. Eng. 2021, 9(11), 1185; https://doi.org/10.3390/jmse9111185 
+
+    Input
+    ad = Dean parameter in z = ad*z^(2/3) ranging from 0.05 to 0.30
+    """
+    gammabr = 1. # breaking parameter
+    hbr = H0/gammabr # eqn 4
+    Ws = (H0/(gammabr*ad))**(3./2.) # eqn 5
+    tanBsz = hbr/Ws # eqn 6
+    esz = tanBsz/(np.sqrt(H0/L0)) # eqn 7
+    eb = tanBb/(np.sqrt(H0/L0)) # eqn 8
+    # setup
+    zmean = H0(0.099 + 3.05 * eb**0.66 * np.exp(-1.77*esz**-0.36 * np.sqrt(eb))) # Eqn 11
+    sinc = 0.0986*H0*eb*eb*np.tanh( (1.79*esz**0.62)/(eb*eb) ) # eqn 13
+    
+
+
 
 def calc_RigGF12( H0 = 2., L0 = 156.131, Beta = 0.02, fp=0.1, fs=.02, sw=5):
     """
