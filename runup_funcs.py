@@ -41,9 +41,9 @@ def VO21( H0, Tp, a, tanBb ):
     eb = tanBb/(np.sqrt(H0/L0)) # eqn 8
     # setup
     zmean = H0 * (0.099 + 3.05 * eb**0.66 * np.exp(-1.77*esz**-0.36 * np.sqrt(eb))) # Eqn 11
-    Sinc = 0.0986*H0*eb*eb*np.tanh( (1.79*esz**0.62)/(eb*eb) ) # eqn 13
-    Hig = H0 * ( 2.29*np.sqrt(esz)*np.exp(-17.5*esz*esz) + 0.183*np.exp(-2798.*(H0/L0)**2) ) # eqn 14
-    Tmig = Tp * (18.1 * ((H0/L0)**0.07)/Bsz**0.43 * 20.9*Bsz ) # eqn 15
+    Sinc = 0.986*H0*eb*eb*np.tanh( (1.79*esz**0.62)/(eb*eb) ) # eqn 13
+    Hig = H0 * ( 2.29*np.sqrt(esz)*np.exp(-17.5*Bsz*Bsz) + 0.183*np.exp(-2798.*(H0/L0)**2) ) # eqn 14
+    Tmig = Tp * (18.1 * ((H0/L0)**0.07)/Bsz**0.43 + 20.9*Bsz ) # eqn 15
     Lig = Tmig*np.sqrt((1./3.)*H0*g) # eqn 17
     ebig = Bb/(np.sqrt(Hig/Lig)) # eqn 16
     embig = 2.32*tanBsz**0.24 # eqn 23
@@ -56,7 +56,6 @@ def VO21( H0, Tp, a, tanBb ):
     R2 = zmean + 0.834 * np.sqrt( 0.873*Sig**2 + 0.725*Sinc**2 ) * (esz**-0.094 * eb *0.14)
     return R2
     
-
 
 
 def calc_RigGF12( H0 = 2., L0 = 156.131, Beta = 0.02, fp=0.1, fs=.02, sw=5):
