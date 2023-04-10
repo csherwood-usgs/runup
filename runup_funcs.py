@@ -19,23 +19,42 @@ def dean_profile( ad, x):
     z = ad*x**(2./3.)
     return z
 
-def MvO21( H0, L0, ad, tanBb ):
+
+def VO21( H0, Tp, a, tanBb ):
     """
     Van Ormondt, M., Roelvink, D., and van Dongeren, A. (2021)
      J. Mar. Sci. Eng. 2021, 9(11), 1185; https://doi.org/10.3390/jmse9111185 
 
     Input
-    ad = Dean parameter in z = ad*z^(2/3) ranging from 0.05 to 0.30
+    ad = Dean parameter in z = a*z^(2/3) ranging from 0.05 to 0.30
+    tanBb = beach slope
     """
+    g = 9.81
+    L0 = calc_L0( Tp )
+    Bb = np.arctan(tanBb) # beach slope
     gammabr = 1. # breaking parameter
-    hbr = H0/gammabr # eqn 4
-    Ws = (H0/(gammabr*ad))**(3./2.) # eqn 5
-    tanBsz = hbr/Ws # eqn 6
+    hbr = H0/gammabr # breaking depth, eqn 4
+    Ws = (H0/(gammabr*a ))**(3./2.) # surfzone width, eqn 5
+    tanBsz = hbr/Ws #surfzone slope, eqn 6
+    Bsz = np.arctan(tanBsz)
     esz = tanBsz/(np.sqrt(H0/L0)) # eqn 7
     eb = tanBb/(np.sqrt(H0/L0)) # eqn 8
     # setup
-    zmean = H0(0.099 + 3.05 * eb**0.66 * np.exp(-1.77*esz**-0.36 * np.sqrt(eb))) # Eqn 11
-    sinc = 0.0986*H0*eb*eb*np.tanh( (1.79*esz**0.62)/(eb*eb) ) # eqn 13
+    zmean = H0 * (0.099 + 3.05 * eb**0.66 * np.exp(-1.77*esz**-0.36 * np.sqrt(eb))) # Eqn 11
+    Sinc = 0.0986*H0*eb*eb*np.tanh( (1.79*esz**0.62)/(eb*eb) ) # eqn 13
+    Hig = H0 * ( 2.29*np.sqrt(esz)*np.exp(-17.5*esz*esz) + 0.183*np.exp(-2798.*(H0/L0)**2) ) # eqn 14
+    Tmig = Tp * (18.1 * ((H0/L0)**0.07)/Bsz**0.43 * 20.9*Bsz ) # eqn 15
+    Lig = Tmig*np.sqrt((1./3.)*H0*g) # eqn 17
+    ebig = Bb/(np.sqrt(Hig/Lig)) # eqn 16
+    embig = 2.32*tanBsz**0.24 # eqn 23
+    # assume ebig <= embig
+    Sig = Hig * 3.48*ebig**0.59  # eqn 21
+    if ebig > embig:
+        coef = 3.48 * embig**.59 - 0.512 * np.sqrt(tanBsz) * (ebig-embig)
+        Sig = Hig * ( np.max((2., coef )))
+
+    R2 = zmean + 0.834 * np.sqrt( 0.873*Sig**2 + 0.725*Sinc**2 ) * (esz**-0.094 * eb *0.14)
+    return R2
     
 
 
